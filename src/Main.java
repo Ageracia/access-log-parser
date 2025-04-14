@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.util.Scanner;
 
 public class Main {
@@ -20,7 +22,33 @@ public class Main {
             }
             count++;
             System.out.println("Путь указан верно!\nЭто файл номер " + count);
+
+            int linesCounter = 0;
+            int maxLength = 0;
+            int minLength = Integer.MAX_VALUE;
+            try{
+                FileReader fileReader = new FileReader(path);
+                BufferedReader reader =
+                        new BufferedReader(fileReader);
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    linesCounter+=1;
+                    int length = line.length();
+                    if (length > maxLength) maxLength = length;
+                    if (length < minLength) minLength = length;
+                    if (length > 1024){
+                        throw new TooLongStringException("Длина строки больше 1024 символов!");
+                    }
+                }
+            } catch(Exception ex) {
+                ex.printStackTrace();
+            }
+            System.out.println("Количество строк: " + linesCounter);
+            System.out.println("Длина самой длинной строки: " + maxLength);
+            System.out.println("Длина самой короткой строки " + minLength);
         }
     }
+
+
 
 }
